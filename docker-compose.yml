@@ -1,0 +1,14 @@
+version: 3
+
+services:
+
+  tdv_scraper:
+    image: tdv_scraper:latest
+    volume:
+      - $PWD/data/:/app/charts:z
+    environment:
+      - DATA_OUTPUT_DIR=/app/charts
+      - HEADLESS_SELENIUM=false
+
+  tr8tr:
+    image: tr8tr_dev:latest
