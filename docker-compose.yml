@@ -10,7 +10,14 @@ services:
     environment:
       - DATA_OUTPUT_DIR=/app/charts
       - HEADLESS_SELENIUM=$HEADLESS_SELENIUM
-    # command: 'bash'
+    # command: 'bashnotifier.evaluate_triggers(sym, dfs, eval_args=dict(symbol=sym))'
 
-  # tr8tr:
-  #   image: tr8tr_dev:latest
+  tr8tr:
+    image: tr8tr_notifier:latest
+    environment:
+      - DATA_DIR:/app/charts
+    volumes:
+      - $PWD/charts:/app/charts
+      - $PWD/../tr8tr/api:/app/api
+      - $PWD/../tr8tr/models:/app/models
+    command: "./api/compose_notifier.py"
