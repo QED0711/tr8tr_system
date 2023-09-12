@@ -6,18 +6,29 @@ services:
     image: tdv_scraper:latest
     volumes:
       - $PWD/charts/:/app/charts:z
-      - $PWD/browser_data/:/app/browser_data:z
+      - $PWD/browser_data/:/app/browser_data
+      - $PWD/screenshots/:/app/screenshots
+      - $PWD/ssl/:/app/ssl
     environment:
       - DATA_OUTPUT_DIR=/app/charts
-      - HEADLESS_SELENIUM=$HEADLESS_SELENIUM
-    # command: 'bashnotifier.evaluate_triggers(sym, dfs, eval_args=dict(symbol=sym))'
+      - HEADLESS_SELENIUM=true
+    ports:
+      - 8888:8888
+    # command: './scripts/jn.sh'
 
   tr8tr:
     image: tr8tr_notifier:latest
     environment:
-      - DATA_DIR:/app/charts
+      - DATA_DIR=/app/charts
+      - VERBOSE=true
     volumes:
-      - $PWD/charts:/app/charts
-      - $PWD/../tr8tr/api:/app/api
-      - $PWD/../tr8tr/models:/app/models
-    command: "./api/compose_notifier.py"
+      - $PWD/charts:/app/charts:z
+      - $PWD/../tr8tr/:/app
+      # - $PWD/../tr8tr/api:/app/api
+      # - $PWD/../tr8tr/models:/app/models
+      # - $PWD/../tr8tr/scripts:/app/scripts
+    command: "/app/scripts/start_compose_notifier.sh"
+    ports:
+      - 8889:8889
+    # command: ["/app/api/execute_pre_analysis.py;", " /app/api/compose_notifier.py"]
+    # command: ""
