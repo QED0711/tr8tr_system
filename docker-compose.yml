@@ -4,10 +4,13 @@ services:
 
   tdv_scraper:
     image: tdv_scraper:latest
+    # user: 1000:1000
     volumes:
-      - $PWD/charts/:/app/charts:z
-      - $PWD/browser_data/:/app/browser_data
-      - $PWD/screenshots/:/app/screenshots
+      - $PWD/tr8tr/charts/:/app/charts
+      - $PWD/tr8tr/browser_data/:/app/browser_data
+      # - $PWD/browser_data/:/app/browser_data
+      - $PWD/tr8tr/screenshots/:/app/screenshots
+      # - $PWD/screenshots/:/app/screenshots
       - $PWD/ssl/:/app/ssl
     environment:
       - DATA_OUTPUT_DIR=/app/charts
@@ -18,11 +21,12 @@ services:
 
   tr8tr:
     image: tr8tr_notifier:latest
+    # user: 1000:1000
     environment:
       - DATA_DIR=/app/charts
       - VERBOSE=true
     volumes:
-      - $PWD/charts:/app/charts:z
+      - $PWD/tr8tr/charts:/app/charts
       - $PWD/../tr8tr/:/app
       # - $PWD/../tr8tr/api:/app/api
       # - $PWD/../tr8tr/models:/app/models
