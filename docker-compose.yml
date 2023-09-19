@@ -21,10 +21,11 @@ services:
 
   tr8tr:
     image: tr8tr_notifier:latest
-    # user: 1000:1000
+    # user: $USER_ID:$USER_GID
     environment:
       - DATA_DIR=/app/charts
-      - VERBOSE=true
+      - USERNAME=$USERNAME
+      # - VERBOSE=true
     volumes:
       - $PWD/tr8tr/charts:/app/charts
       - $PWD/../tr8tr/:/app
